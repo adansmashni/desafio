@@ -1,0 +1,27 @@
+---
+  - name: "Preparando o server - Prova Lynx"
+    hosts: localhost
+    connection: local
+
+    tasks:
+
+    - name: "Instala Pacotes Iniciais"
+      yum:   
+        name: {{ item }}
+        state: present
+      loop:
+        - bash-completion
+        - yum-utils
+        - vim
+        - bind-utils
+        - net-tools
+        - telnet
+        - wget
+        - curl
+        - git
+  
+  - name: newtes
+
+  - name: newtask
+  
+
