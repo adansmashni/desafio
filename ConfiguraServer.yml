@@ -7,7 +7,7 @@
 
     - name: "Instala Pacotes Iniciais"
       yum:   
-        name: {{ item }}
+        name: "{{ item }}"
         state: present
       loop:
         - bash-completion
@@ -19,9 +19,4 @@
         - wget
         - curl
         - git
-  
-  - name: newtes
-
-  - name: newtask
-  
-
+        
