@@ -1,0 +1,16 @@
+# telnet localhost 8011
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+GET /index.html HTTP/1.1
+Host: localhost
+
+HTTP/1.1 200 OK
+Date: Tue, 04 Feb 2020 00:05:27 GMT
+Content-Length: 11
+Content-Type: text/plain; charset=utf-8
+
+index.html!
+HTTP/1.1 400 Bad Request
+
+Connection closed by foreign host.

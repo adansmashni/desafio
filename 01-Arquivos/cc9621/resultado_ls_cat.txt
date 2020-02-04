@@ -1,0 +1,6 @@
+# ls /tmp -lt
+total 8
+-rw-r--r--. 1 root root    6 Feb  3 23:42 root
+
+# cat /tmp/root
+String
