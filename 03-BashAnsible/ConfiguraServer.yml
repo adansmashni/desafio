@@ -1,5 +1,5 @@
 ---
-  - name: "Preparando o server - Prova Lynx"
+  - name: "Preparando o server"
     hosts: localhost
     connection: local
 
@@ -19,4 +19,15 @@
         - wget
         - curl
         - git
-        
+        - gcc-c++
+        - make
+        - automake
+
+    - name: "Configura repo NodeJS"
+      shell: "curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -"
+
+    - name: "Instala NodeJs"
+      yum:
+        name: nodejs
+        state: present
+    
