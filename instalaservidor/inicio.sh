@@ -24,6 +24,8 @@ echo appgitrepo: "$(awk 'NR==5' $values)" >> $vall
 echo appdir: "$HOME/desafio/aplicacao" >> $vall
 echo apprepo: "$HOME/desafio" >> $vall
 
+sudo mkdir -p /etc/ssl/nginx
+
 
 
 
