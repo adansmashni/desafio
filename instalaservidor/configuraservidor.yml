@@ -89,16 +89,16 @@
 #        - pm2 start webhook.js --name webhook
 
     - name: inicia npm
-      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && npm init -y -f"
+      shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && npm init -y -f'"
 
     - name: instala pm2
       shell: "sudo npm install pm2 -g"
 
     - name: instala pm2 modules
-      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && while read line; do npm install $line --save; done < requirements.txt"
+      shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && while read line; do npm install $line --save; done < requirements.txt'"
 
     - name: primeiro start app
-      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && pm2 start index.js --name {{ appname }} -i max"
+      shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && pm2 start index.js --name {{ appname }} -i max'"
 
     - name: Template Deploy
       template:
