@@ -11,7 +11,7 @@ sudo pip2 install ansible==2.7.16
 echo "O certificado SSL e a chave já foram copiadas para o servidor e encontram-se no diretório indicado?"
 echo "(sim/nao)" 
 read resp
-if [ $res == "sim" ]
+if [ $resp == "sim" ]
 then
 echo "Continuando a instalação..."
 else

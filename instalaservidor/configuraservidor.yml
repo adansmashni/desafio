@@ -23,11 +23,20 @@
         - make
         - automake
         - nginx
+        - httpd-tools
     
     - name: Template Vhost
       template:
         src: vhost.conf.j2
         dest: /etc/nginx/conf.d/vhost.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Template Vhost
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
         owner: root
         group: root
         mode: '0644'
