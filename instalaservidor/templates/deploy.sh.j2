@@ -1,0 +1,29 @@
+cd {{ apprepo }}
+contexto=$(git rev-parse --short HEAD)
+cd {{ appdir }}
+cp -rp node_modules $contexto
+cd {{ apprepo }}
+git pull origin master
+while read line 
+do 
+npm install $line -g --save
+done < {{ appdir }}/requirements.txt
+cd {{ appdir }}
+cat <<EOF >>{{ appdir }}/index.js
+app.use('/healthcheck', require('express-healthcheck')({
+    healthy: function () {
+        return healthly;
+    }
+}));
+EOF
+cp index.js index$contexto.js
+sed -i 's/app.listen(3000/app.listen(3001/' index$contexto.js
+pm2 start index$contexto.js --name $contexto -i 1
+sleep 10
+verifica=$(pm2 ls | grep $contexto | awk  '{print $18}')
+if [ $verifica == "online" ]
+then
+    pm2 stop $contexto && pm2 delete $contexto
+    rm -f index$contexto.js
+    pm2 reload {{ appname }}
+fi

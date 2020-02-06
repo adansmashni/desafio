@@ -4,7 +4,7 @@
     connection: local
 
     tasks:
-
+     
     - name: "Instala Pacotes Iniciais"
       yum:   
         name: "{{ item }}"
@@ -22,6 +22,7 @@
         - gcc-c++
         - make
         - automake
+        - nginx
 
     - name: "Configura repo NodeJS"
       shell: "curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -"
@@ -30,4 +31,10 @@
       yum:
         name: nodejs
         state: present
+
+    - name: "Cria usuario node"
+      user: 
+        name: node
+        comment: Node App user
+        shell: /bin/bash
     

@@ -1,0 +1,16 @@
+vnode=$(ps -aux | grep "{{ appdir }}/index.js" | grep -v "color=auto")
+vnginx=$(systemctl status nginx | grep Active | awk '{print $2" "$3}')
+vweb=$(curl -IL http://{{ appdns }} | grep "HTTP/1.1 200 OK"
+if [ -z $vnode ]
+then 
+su - node -c "cd {{ appdir}} && pm2 start index.js --name {{ appname }} -i max"
+fi
+if [ -z $nginx ]
+then 
+systemctl restart nginx
+fi
+if [ -z $vweb ]
+then 
+systemctl restart nginx
+su - node -c "cd {{ appdir}} && pm2 start index.js --name {{ appname }} -i max"
+fi
