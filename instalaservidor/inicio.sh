@@ -13,12 +13,6 @@ echo 'Exemplo: "https://github.com/adansmashni/desafio.git".'
 read respappgit && echo $respappgit >> $values
 echo $respappgit | awk -F"/" '{print $4}' >> $values
 echo $respappgit | awk -F"/" '{print $5}' | sed 's/.git//' >> $values
-echo "Caminho completo para o certificado SSL:"
-echo 'Exemplo: "/home/usuario/certificate.crt".'
-read respssl && echo $respssl >> $values
-echo "Caminho completo para o Chave SSL:"
-echo 'Exemplo: "/home/usuario/certificate.key".'
-read respsslkey && echo $respsslkey >> $values
 
 # Cria arquivo de vars no ansible
 
@@ -28,10 +22,10 @@ echo appdomain: "$(awk 'NR==2' $values)" >> $vall
 echo appgit: "$(awk 'NR==3' $values)" >> $vall
 echo appgituser: "$(awk 'NR==4' $values)" >> $vall
 echo appgitrepo: "$(awk 'NR==5' $values)" >> $vall
-echo appcrt: "$(awk 'NR==6' $values)" >> $vall
-echo appkey: "$(awk 'NR==7' $values)" >> $vall
 echo appdir: "$HOME/desafio/aplicacao" >> $vall
 echo apprepo: "$HOME/desafio" >> $vall
+
+
 
 
 

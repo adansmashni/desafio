@@ -23,6 +23,14 @@
         - make
         - automake
         - nginx
+    
+    - name: Template Vhost
+      template:
+        src: vhost.conf.j2
+        dest: /etc/nginx/conf.d/vhost.conf
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: "Configura repo NodeJS"
       shell: "curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -"
@@ -38,3 +46,10 @@
         comment: Node App user
         shell: /bin/bash
     
+    - name: Template Deploy
+      template:
+        src: deploy.sh.j2
+        dest: "{{ appdir }}/deploy.sh"
+        owner: node
+        group: node
+        mode: '0744'

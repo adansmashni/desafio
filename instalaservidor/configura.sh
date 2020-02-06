@@ -8,5 +8,8 @@ sudo yum install -y python2-pip
 sudo pip2 install -U pip
 sudo pip2 install ansible==2.7.16
 
+sudo mkdir /etc/ssl/nginx
+sudo openssl req -newkey rsa:2048 -nodes -keyout /etc/ssl/nginx/domain.key -x509 -days 365 -out /etc/ssl/nginx/domain.crt -subj "/C=BR/ST=DESAFIO/L=DESAFIO/O=DESAFIO/CN=meudesafio.vpjet.com.br"
+
 # Aplica ansible playbook
 ansible-playbook --become --connection=local -i 127.0.0.1 configuraservidor.yml
