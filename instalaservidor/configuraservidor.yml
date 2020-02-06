@@ -31,6 +31,9 @@
         owner: root
         group: root
         mode: '0644'
+  
+    - name: "Configura repo NodeJS"
+      shell: echo "127.0.0.1   {{ appdomain }}" >> /etc/hosts && echo "::1         {{ appdomain }}" >> /etc/hosts
 
     - name: "Configura repo NodeJS"
       shell: "curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -"
@@ -56,3 +59,12 @@
         owner: node
         group: node
         mode: '0744'
+
+    - name: inicia npm
+      shell: su - node -c "cd {{ appdir }} && npm init -y -f"
+
+    - name: instala pm2
+      shell: su - node -c "cd {{ appdir }} && npm install pm2 -g"
+
+    - name: instala pm2 modules
+      shell: su - node -c "cd {{ appdir }} && while read line; do npm install $line --save; done < requirements.txt"
