@@ -31,6 +31,11 @@
         owner: root
         group: root
         mode: '0644'
+
+    - name: restart nginx 
+      systemd:
+        state: restarted
+        name: nginx
   
     - name: "Configura repo NodeJS"
       shell: echo "127.0.0.1   {{ appdomain }}" >> /etc/hosts && echo "::1         {{ appdomain }}" >> /etc/hosts
@@ -55,16 +60,47 @@
     - name: Template Deploy
       template:
         src: deploy.sh.j2
-        dest: "{{ appdir }}/deploy.sh"
+        dest: "/home/node/desafio/aplicacao/deploy.sh"
         owner: node
         group: node
         mode: '0744'
 
     - name: inicia npm
-      shell: su - node -c "cd {{ appdir }} && npm init -y -f"
+      shell: su - node -c "cd /home/node/desafio/aplicacao && npm init -y -f"
 
     - name: instala pm2
-      shell: su - node -c "cd {{ appdir }} && npm install pm2 -g"
+      shell: su - node -c "cd /home/node/desafio/aplicacao && npm install pm2 -g"
 
     - name: instala pm2 modules
-      shell: su - node -c "cd {{ appdir }} && while read line; do npm install $line --save; done < requirements.txt"
+      shell: su - node -c "cd /home/node/desafio/aplicacao && while read line; do npm install $line --save; done < requirements.txt"
+
+    - name: primeiro start app
+      shell: su - node -c "cd /home/node/desafio/aplicacao && pm2 start index.js --name {{ appname }} -i max"
+
+    - name: Template Deploy
+      template:
+        src: monitora.sh.j2
+        dest: "/opt/monitora.sh"
+        owner: root
+        group: root
+        mode: '0744'      
+
+    - name: crontab monitora
+      shell: echo "*/2 * * * * root bash /opt/monitora.sh" >> /etc/crontab
+
+    - name: restart service cron on centos
+      systemd:
+        state: restarted
+        daemon_reload: yes
+        name: crond
+
+    - name: Template webhook
+      template:
+        src: webhook.js.j2
+        dest: "/home/node/desafio/aplicacao/webhook.js"
+        owner: node
+        group: node
+        mode: '0644'      
+
+    - name: primeiro start webhook
+      shell: su - node -c "cd /home/node/desafio/aplicacao && pm2 start webhook.js --name webhook"

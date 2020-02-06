@@ -9,13 +9,6 @@ do
 npm install $line -g --save
 done < {{ appdir }}/requirements.txt
 cd {{ appdir }}
-cat <<EOF >>{{ appdir }}/index.js
-app.use('/healthcheck', require('express-healthcheck')({
-    healthy: function () {
-        return healthly;
-    }
-}));
-EOF
 cp index.js index$contexto.js
 sed -i 's/app.listen(3000/app.listen(3001/' index$contexto.js
 pm2 start index$contexto.js --name $contexto -i 1

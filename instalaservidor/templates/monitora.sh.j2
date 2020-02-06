@@ -1,9 +1,10 @@
-vnode=$(ps -aux | grep "{{ appdir }}/index.js" | grep -v "color=auto")
+vnode=$(ps -aux | grep "/home/node/desafio/aplicacao/index.js" | grep -v "color=auto")
 vnginx=$(systemctl status nginx | grep Active | awk '{print $2" "$3}')
 vweb=$(curl -IL http://{{ appdns }} | grep "HTTP/1.1 200 OK"
+vhook=$(curl -IL http://localhost:4000) | grep "Cannot GET /"
 if [ -z $vnode ]
 then 
-su - node -c "cd {{ appdir}} && pm2 start index.js --name {{ appname }} -i max"
+su - node -c "cd /home/node/desafio/aplicacao && pm2 start index.js --name {{ appname }} -i max"
 fi
 if [ -z $nginx ]
 then 
@@ -12,5 +13,9 @@ fi
 if [ -z $vweb ]
 then 
 systemctl restart nginx
-su - node -c "cd {{ appdir}} && pm2 start index.js --name {{ appname }} -i max"
+su - node -c "cd /home/node/desafio/aplicacao && pm2 restart {{ appname }}"
+fi
+if [ -z $vhook ]
+then 
+su - node -c "cd /home/node/desafio/aplicacao && pm2 restart webhook"
 fi
