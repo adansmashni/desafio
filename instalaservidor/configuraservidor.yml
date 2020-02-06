@@ -73,32 +73,32 @@
         group: node
         mode: '0644'
 
-    - name: Run a command as node
-      command: {{ item }}
-      become: true
-      become_method: su
-      become_user: node
-      become_flags: '-s /bin/bash'
-      args:
-        chdir: /home/node
-      loop:
-        - npm init -y -f
-        - npm install pm2
-        - while read line; do npm install $line --save; done < requirements.txt
-        - pm2 start index.js --name {{ appname }} -i max
-        - pm2 start webhook.js --name webhook
+#    - name: Run a command as node
+#      command: {{ item }}
+#      become: true
+#      become_method: su
+#      become_user: node
+#      become_flags: '-s /bin/bash'
+#      args:
+#        chdir: /home/node
+#      loop:
+#        - npm init -y -f
+#        - npm install pm2
+#        - while read line; do npm install $line --save; done < requirements.txt
+#        - pm2 start index.js --name {{ appname }} -i max
+#        - pm2 start webhook.js --name webhook
 
-#    - name: inicia npm
-#      shell: su - node -c "cd /home/node/desafio/aplicacao && npm init -y -f"
+    - name: inicia npm
+      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && npm init -y -f"
 
-#    - name: instala pm2
-#      shell: su - node -c "cd /home/node/desafio/aplicacao && npm install pm2"
+    - name: instala pm2
+      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && npm install pm2"
 
-#    - name: instala pm2 modules
-#      shell: su - node -c "cd /home/node/desafio/aplicacao && while read line; do npm install $line --save; done < requirements.txt"
+    - name: instala pm2 modules
+      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && while read line; do npm install $line --save; done < requirements.txt"
 
-#    - name: primeiro start app
-#      shell: su - node -c "cd /home/node/desafio/aplicacao && pm2 start index.js --name {{ appname }} -i max"
+    - name: primeiro start app
+      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && pm2 start index.js --name {{ appname }} -i max"
 
     - name: Template Deploy
       template:
@@ -119,5 +119,5 @@
 
       
 
-#    - name: primeiro start webhook
-#      shell: su - node -c "cd /home/node/desafio/aplicacao && pm2 start webhook.js --name webhook"
+    - name: primeiro start webhook
+      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && pm2 start webhook.js --name webhook"
