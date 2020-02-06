@@ -1,6 +1,6 @@
 vnode=$(ps -aux | grep "/home/node/desafio/aplicacao/index.js" | grep -v "color=auto")
 vnginx=$(systemctl status nginx | grep Active | awk '{print $2" "$3}')
-vweb=$(curl -IL http://{{ appdns }} | grep "HTTP/1.1 200 OK"
+vweb=$(curl -IL http://{{ appdomain }} | grep "HTTP/1.1 200 OK"
 vhook=$(curl -IL http://localhost:4000) | grep "Cannot GET /"
 if [ -z $vnode ]
 then 
