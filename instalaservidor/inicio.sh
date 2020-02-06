@@ -1,7 +1,6 @@
 # Questionário Inicial e criação de arquivo de parâmetros
 
 values="$HOME/desafio/instalaservidor/arquivos/values.txt"
-touch $values
 echo 'Qual é o nome da Aplicação?'
 echo 'Exemplo: "web-app".'
 read respappname && echo $respappname >> $values
