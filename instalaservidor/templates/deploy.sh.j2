@@ -1,14 +1,12 @@
-cd {{ apprepo }}
+cd /home/node/desafio/
 contexto=$(git rev-parse --short HEAD)
-cd {{ appdir }}
-cp -rp node_modules $contexto
-cd {{ apprepo }}
+cp -rp aplicacao aplicacao$contexto
 git pull origin master
-while read line 
+grep require *.js -R | grep -v "require('./" | grep -v "require('/" | grep -v ".js')" | awk -F"require" '{print $2}' | cut -d"'" -f2 | uniq | while read line
 do 
-npm install $line -g --save
-done < {{ appdir }}/requirements.txt
-cd {{ appdir }}
+npm install $line --save
+done
+cd /home/node/desafio/aplicacao
 cp index.js index$contexto.js
 sed -i 's/app.listen(3000/app.listen(3001/' index$contexto.js
 pm2 start index$contexto.js --name $contexto -i 1

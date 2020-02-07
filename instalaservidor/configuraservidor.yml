@@ -82,21 +82,6 @@
         group: node
         mode: '0644'
 
-#    - name: Run a command as node
-#      command: {{ item }}
-#      become: true
-#      become_method: su
-#      become_user: node
-#      become_flags: '-s /bin/bash'
-#      args:
-#        chdir: /home/node
-#      loop:
-#        - npm init -y -f
-#        - npm install pm2
-#        - while read line; do npm install $line --save; done < requirements.txt
-#        - pm2 start index.js --name {{ appname }} -i max
-#        - pm2 start webhook.js --name webhook
-
     - name: inicia npm
       shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && npm init -y -f'"
 
@@ -104,7 +89,8 @@
       shell: "sudo npm install pm2 -g"
 
     - name: instala pm2 modules
-      shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && while read line; do npm install $line --save; done < requirements.txt'"
+      shell: sudo su - node -c grep require *.js -R | grep -v "require('./" | grep -v "require('/" | grep -v ".js')" | awk -F"require" '{print $2}' | cut -d"'" -f2 | uniq | while read line; do npm install $line --save; done
+
 
     - name: primeiro start app
       shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && pm2 start index.js --name {{ appname }} -i max'"
