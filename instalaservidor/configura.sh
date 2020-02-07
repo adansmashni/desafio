@@ -17,5 +17,9 @@ echo "Continuando a instalação..."
 else
 sudo openssl req -newkey rsa:2048 -nodes -keyout /etc/ssl/nginx/domain.key -x509 -days 365 -out /etc/ssl/nginx/domain.crt -subj "/C=BR/ST=DESAFIO/L=DESAFIO/O=DESAFIO/CN=meudesafio.vpjet.com.br"
 fi
+
+#configura selinux
+setsebool -P httpd_can_network_connect on
+
 # Aplica ansible playbook
 ansible-playbook --become --connection=local -i 127.0.0.1 configuraservidor.yml
