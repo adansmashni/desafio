@@ -112,5 +112,16 @@
         daemon_reload: yes
         name: crond
 
+    - name: Template Deploy
+      copy:
+        src: webhook.service
+        dest: "/etc/systemd/system/webhook.service"
+        owner: root
+        group: root
+        mode: '0644'
+  
     - name: primeiro start webhook
-      shell: sudo su - node -c "cd /home/node/desafio/aplicacao && pm2 start webhook.js --name webhook"
+      systemd:
+        state: started
+        name: webhook.service
+        enabled: yes

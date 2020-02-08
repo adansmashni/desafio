@@ -1,6 +1,6 @@
 cd /home/node/desafio/
 contexto=$(git rev-parse --short HEAD)
-cp -rp aplicacao aplicacao$contexto
+cp -rp aplicacao /home/node/aplicacao$contexto
 git pull origin master
 grep require *.js -R | grep -v "require('./" | grep -v "require('/" | grep -v ".js')" | awk -F"require" '{print $2}' | cut -d"'" -f2 | uniq | while read line
 do 
