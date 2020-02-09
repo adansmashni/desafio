@@ -82,18 +82,16 @@
         group: node
         mode: '0644'
 
+    - name: Template config node
+      template:
+        src: nodeconfig.sh.j2
+        dest: "/home/node/desafio/aplicacao/nodeconfig.sh"
+        owner: node
+        group: node
+        mode: '0744'
+
     - name: inicia npm
-      shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && npm init -y -f'"
-
-    - name: instala pm2
-      shell: "sudo npm install pm2 -g"
-
-    - name: instala pm2 modules
-      shell: sudo su - node -c grep require *.js -R | grep -v "require('./" | grep -v "require('/" | grep -v ".js')" | awk -F"require" '{print $2}' | cut -d"'" -f2 | uniq | while read line; do npm install $line --save; done
-
-
-    - name: primeiro start app
-      shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && pm2 start index.js --name {{ appname }} -i max'"
+      shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && ./nodeconfig.sh'"
 
     - name: Template Deploy
       template:
