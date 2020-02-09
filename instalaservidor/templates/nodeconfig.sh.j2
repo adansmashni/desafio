@@ -1,5 +1,4 @@
 cd /home/node/desafio/aplicacao
 npm init -y -f
-npm install pm2 --save
 grep require *.js -R | grep -v "require('./" | grep -v "require('/" | grep -v ".js')" | awk -F"require" '{print $2}' | cut -d"'" -f2 | uniq | while read line; do npm install $line --save; done
 pm2 start index.js --name {{ appname }} -i max

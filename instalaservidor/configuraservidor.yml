@@ -57,6 +57,9 @@
         name: nodejs
         state: present
 
+    - name: inicia npm
+      shell: "sudo npm install pm2 -g --save"
+
     - name: "Cria usuario node"
       user: 
         name: node
