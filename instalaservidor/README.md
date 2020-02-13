@@ -31,6 +31,9 @@ $ sudo bash configura.sh
 A instalação irá perguntar se os arquivos do certificado SSL já foram copiados para o diretório _/etc/ssl/nginx_, caso a reposta sejá não a instalação irá continuar utilizando um certificado auto-assinado, sendo necessário substituir os arquivos e reiniciar o Nginx posteriormente.
 Para que os e-mails não sejam considerados spam é necessário que a zona DNS do dominío da aplicação esteja com o ip de saída do servidor como um emissor servidor SMTP confiável.
 
+### Teste de carga
+Foram realizados teste de carga com o shell script e o test plan do jmeter, ambos no repositório.
+
 ### Todo:
 1. Passar todas as tasks do ansible escritas com módulo _shell_ para módulos nativos.
 2. Tratamento das entradas de usuário durante a instalação
