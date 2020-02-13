@@ -1,0 +1,15 @@
+logday=$(cat /var/log/nginx/access.log | grep $(date --date="-1 day" +%d/%b/%Y) > /opt/relatorio/daylog.txt
+
+echo "Relatorio de conexões:" >> /opt/relatorio/relatorio.txt
+echo 'Data: $(date --date="-1 day" +%d/%b/%Y).' >> /opt/relatorio/relatorio.txt
+echo "\n" >> /opt/relatorio/relatorio.txt
+
+while read $line
+do 
+echo "Response Code: $line" >> /opt/relatorio/relatorio.txt
+echo "\n" >> /opt/relatorio/relatorio.txt
+awk '($8 ~ /$(echo $line)/)' access.log | awk '{print $8}' | sort | uniq -c | sort -rn >> /opt/relatorio/relatorio.txt
+echo "\n" >> /opt/relatorio/relatorio.txt
+done < /opt/codes.txt
+
+mail -s 'Relatorio de Conexoes' -a From:Admin\<admin@vpjet.com.br\> {{ respdemail }} < /opt/relatorio/relatorio.txt

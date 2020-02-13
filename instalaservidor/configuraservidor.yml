@@ -24,6 +24,7 @@
         - automake
         - nginx
         - httpd-tools
+        - mailx
     
     - name: Template Vhost
       template:
@@ -107,12 +108,6 @@
     - name: crontab monitora
       shell: echo "*/2 * * * * root bash /opt/monitora.sh" >> /etc/crontab
 
-    - name: restart service cron on centos
-      systemd:
-        state: restarted
-        daemon_reload: yes
-        name: crond
-
     - name: Template Deploy
       copy:
         src: webhook.service
@@ -126,3 +121,39 @@
         state: started
         name: webhook.service
         enabled: yes
+
+    - name: Template Deploy
+      template:
+        src: stress_test.sh.j2
+        dest: "/opt/relatorio/stress_test.sh"
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Template Deploy
+      template:
+        src: status_report.sh.j2
+        dest: "/opt/relatorio/status_report.sh"
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: inicia npm
+      shell: "sudo su - node -c 'cd /home/node/desafio/aplicacao && ./stress_test.sh'"
+
+    - name: Template Deploy
+      copy:
+        src: codes.txt
+        dest: "/opt/relatorio/codes.txt"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: crontab relatorio
+      shell: echo "20 0 * * * root bash /opt/relatorio/status_report.sh" >> /etc/crontab
+
+    - name: restart service cron on centos
+      systemd:
+        state: restarted
+        daemon_reload: yes
+        name: crond

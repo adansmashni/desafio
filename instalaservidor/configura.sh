@@ -21,5 +21,8 @@ fi
 #configura selinux
 setsebool -P httpd_can_network_connect on
 
+# Diretorio para relatorio
+sudo mkdir /opt/relatorio
+
 # Aplica ansible playbook
 ansible-playbook --become --connection=local -i 127.0.0.1 configuraservidor.yml
