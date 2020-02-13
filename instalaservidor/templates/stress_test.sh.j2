@@ -12,10 +12,10 @@ function resultado {
 }
 for x in {10..1000..10}
 do
-    vteste=$(ab -q -n50000 -c$x https://{{ appdomain }})
+    vteste=$(ab -q -n50000 -c$x https://{{ appdomain }}/)
     vcomplete=$(echo "$vteste" | grep "Complete" | awk '{print $3}')
     vfailed=$(echo "$vteste" | grep "Failed" | awk '{print $3}')
-    vtime=$(echo "$vteste" | grep "Time per" | head -n1 | awk '{print $4}' | cut -d"                                                                                        ." -f1)
+    vtime=$(echo "$vteste" | grep "Time per" | head -n1 | awk '{print $4}' | cut -d"." -f1)
     vlongest=$(echo "$vteste" | grep "longest" | awk '{print $2}')
 #echo $vcomplete $vfailed $vtime $vlongest
 if [[ $vcomplete -ne 50000 ]]; then
